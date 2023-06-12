@@ -59,14 +59,5 @@ if adresse:
         st.write("Adresse invalide. Veuillez entrer une adresse valide.")
 
 
-
-# La méthode pour résoudre ce problème est la suivante :
-# Calculer la distance euclidienne entre les coordonnées du client et celles
-# de chaque site en utilisant une formule appropriée.
-# Identifier la distance minimale parmi les distances calculées.
-# Déterminer le site correspondant à la distance minimale comme étant le site le plus proche du client.
-# À l'aide de ces étapes, vous devez développer un code Python pour résoudre ce
-# problème spécifique de détermination du site le plus proche en utilisant les coordonnées GPS fournies.
-# Calculer les distances entre le client et chaque site
 # Considérons deux points p' et p de coordonnées respectives (x', y') et (x ,y )
 # Leur distance euclidienne est donnée par la formule ||p'−p|| = √ (x' − x )² + (y' − y )²
