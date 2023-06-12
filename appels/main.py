@@ -26,15 +26,13 @@ print(f"Durée totale des appels : {h:02d}:{m:02d}:{s:02d}")
 
 # 3 - Lister les numéros des appels entrants.
 appels_entrants = np.unique(numeros[en_sor == 'En'])
-print("Numéros des appels entrants : ")
 for numero_entrant in appels_entrants:
-    print(numero_entrant)
+    print("Numéros des appels entrants : ", numero_entrant)
 
 # 4 - Lister les numéros des appels sortants.
 appels_sortants = np.unique(numeros[en_sor == 'Sor'])
-print("Numéros des appels sortants : ")
 for numero_sortant in appels_sortants:
-    print(numero_sortant)
+    print("Numéros des appels sortants : ", numero_sortant)
 
 # 5 - Calculer la durée totale des appels entrants en format hh:mm:ss.
 duree_entrants = np.sum((en_sor == 'En') * (secondes + minutes*60 + heures*3600))
