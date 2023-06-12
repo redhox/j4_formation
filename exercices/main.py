@@ -6,7 +6,7 @@ import folium
 from geopy.geocoders import Nominatim
 import geopy.exc
 
-# Coordonnées des sites
+# Coordonnées des 4 sites de l'entreprise de plomberie
 coordo_sites = np.array([
     [4.56749177e01, -4.79134161e-01],  # Site N°1
     [4.79013224e01, 5.96212449e00],   # Site N°2
@@ -25,27 +25,32 @@ if adresse:
         coordo_client = np.array([location.latitude, location.longitude])
         st.write(f"Coordonnées du client : {coordo_client}")
 
-        # Calculer les distances entre le client et chaque site
-        distances = np.linalg.norm(coordo_sites - coordo_client, axis=1)
+        # Calculer la distance euclidienne entre les coordonnées du client et celles de chaque site en utilisant une formule appropriée.
+        # Distance euclidienne = racine((x_site - x_client)² + (y_site - y_client)²)
+        distances = []
+        for coordo_site in coordo_sites:
+            distance = np.sqrt((coordo_site[0] - coordo_client[0]) ** 2 + (coordo_site[1] - coordo_client[1]) ** 2)
+            distances.append(distance)
 
-        # Trouver l'indice du site avec la distance minimale
+        distances = np.array(distances)
+
+        # Identifier la distance minimale parmi les distances calculée
         indice_site_plus_proche = np.argmin(distances)
 
-        # Déterminer le site correspondant à la distance minimale
+        # Déterminer le site correspondant à la distance minimale comme étant le site le plus proche du client
         site_plus_proche = f"Site N°{indice_site_plus_proche + 1}"
-
-        # Afficher le résultat
         st.title(f"Le site le plus proche du client est le {site_plus_proche}")
+
 
         # Créer une carte interactive
         m = folium.Map(location=[coordo_client[0], coordo_client[1]], zoom_start=10)
 
         # Ajouter les marqueurs pour les sites
         for i, coordo_site in enumerate(coordo_sites):
-            folium.Marker(location=coordo_site, popup=f"Site N°{i + 1}").add_to(m)
+            folium.Marker(location=[coordo_site[0], coordo_site[1]], popup=f"Site N°{i + 1}").add_to(m)
 
         # Ajouter le marqueur pour le client
-        folium.Marker(location=coordo_client, popup="Client").add_to(m)
+        folium.Marker(location=[coordo_client[0], coordo_client[1]], popup="Client").add_to(m)
 
         # Afficher la carte avec st.map()
         folium_static(m)
