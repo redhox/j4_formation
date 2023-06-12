@@ -3,7 +3,7 @@ import pandas as pd
 # import matplotlib.pyplot as plt
 
 
-my_data = pd.read_excel("Databases/Appels.xlsx")
+my_data = pd.read_excel("DDB/Appels.xlsx")
 
 # Calculer la durée totale des appels en format hh:mm:ss
 total_duration = my_data['hh'].sum()*3600 + my_data['mm'].sum()*60 + my_data['ss'].sum()
