@@ -3,7 +3,7 @@ import pandas as pd
 
 # 0 - Charger les données à partir du fichier Excel
 data = pd.read_excel('DDB/Appels.xlsx')
-data = data.to_numpy()
+data = np.array(data)
 
 # 1 - Calculer la durée totale des appels en format hh:mm:ss.
 numeros = data[:, 0]
