@@ -65,8 +65,6 @@ if adresse:
 # # Calculer la distance euclidienne entre les coordonnées du client et celles
 # # de chaque site en utilisant une formule appropriée.
 # # Identifier la distance minimale parmi les distances calculées.
-# # Déterminer le site correspondant à la distance minimale comme étant le
-# # site le plus proche du client.
+# # Déterminer le site correspondant à la distance minimale comme étant le site le plus proche du client.
 # # À l'aide de ces étapes, vous devez développer un code Python pour résoudre ce
-# # problème spécifique de détermination du site le plus proche en utilisant les
-# # coordonnées GPS fournies.
+# # problème spécifique de détermination du site le plus proche en utilisant les coordonnées GPS fournies.
