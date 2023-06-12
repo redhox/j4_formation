@@ -1,6 +1,5 @@
-import math
-import numpy
-import pandas
+import numpy as np
+import pandas as pd
 import streamlit as st
 from streamlit_folium import folium_static
 import folium
@@ -8,12 +7,12 @@ from geopy.geocoders import Nominatim
 import geopy.exc
 
 # Coordonnées des sites
-coordo_sites = [
-    (4.56749177e01, -4.79134161e-01),  # Site N°1
-    (4.79013224e01, 5.96212449e00),  # Site N°2
-    (4.90197399e01, 2.15708360e00),  # Site N°3
-    (4.41086654e01, 4.72918709e00),  # Site N°4
-]
+coordo_sites = np.array([
+    [4.56749177e01, -4.79134161e-01],  # Site N°1
+    [4.79013224e01, 5.96212449e00],   # Site N°2
+    [4.90197399e01, 2.15708360e00],   # Site N°3
+    [4.41086654e01, 4.72918709e00]    # Site N°4
+])
 
 # Demander à l'utilisateur d'entrer une adresse
 adresse = st.text_input("Entrez votre adresse postale")
@@ -23,20 +22,14 @@ if adresse:
     try:
         geolocator = Nominatim(user_agent="geoapiExercises")
         location = geolocator.geocode(adresse)
-        coordo_client = (location.latitude, location.longitude)
+        coordo_client = np.array([location.latitude, location.longitude])
         st.write(f"Coordonnées du client : {coordo_client}")
 
         # Calculer les distances entre le client et chaque site
-        # Considérons deux points p' et p de coordonnées respectives (x', y') et (x ,y )
-        # Leur distance euclidienne est donnée par la formule ||p'−p|| = √ (x' − x )² + (y' − y )²
-
-        distances = [
-            ((x - coordo_client[0]) ** 2 + (y - coordo_client[1]) ** 2) ** 0.5
-            for x, y in coordo_sites
-        ]
+        distances = np.linalg.norm(coordo_sites - coordo_client, axis=1)
 
         # Trouver l'indice du site avec la distance minimale
-        indice_site_plus_proche = distances.index(min(distances))
+        indice_site_plus_proche = np.argmin(distances)
 
         # Déterminer le site correspondant à la distance minimale
         site_plus_proche = f"Site N°{indice_site_plus_proche + 1}"
@@ -61,10 +54,14 @@ if adresse:
         st.write("Adresse invalide. Veuillez entrer une adresse valide.")
 
 
-# # La méthode pour résoudre ce problème est la suivante :
-# # Calculer la distance euclidienne entre les coordonnées du client et celles
-# # de chaque site en utilisant une formule appropriée.
-# # Identifier la distance minimale parmi les distances calculées.
-# # Déterminer le site correspondant à la distance minimale comme étant le site le plus proche du client.
-# # À l'aide de ces étapes, vous devez développer un code Python pour résoudre ce
-# # problème spécifique de détermination du site le plus proche en utilisant les coordonnées GPS fournies.
+
+# La méthode pour résoudre ce problème est la suivante :
+# Calculer la distance euclidienne entre les coordonnées du client et celles
+# de chaque site en utilisant une formule appropriée.
+# Identifier la distance minimale parmi les distances calculées.
+# Déterminer le site correspondant à la distance minimale comme étant le site le plus proche du client.
+# À l'aide de ces étapes, vous devez développer un code Python pour résoudre ce
+# problème spécifique de détermination du site le plus proche en utilisant les coordonnées GPS fournies.
+# Calculer les distances entre le client et chaque site
+# Considérons deux points p' et p de coordonnées respectives (x', y') et (x ,y )
+# Leur distance euclidienne est donnée par la formule ||p'−p|| = √ (x' − x )² + (y' − y )²
