@@ -55,12 +55,23 @@ ax.set_title('Histogramme de la quantité vendue de chaque produit')
 st.pyplot(fig)
 
 #6
-recette_prix = my_data['Prix'] * my_data['Quantite']
-recette_produit = pd.concat([my_data['Produits Laitiers'], recette_prix], axis=1)
-recette_produit.columns = ['Produits Laitiers', 'Recette']
+my_data['Prix_total'] = my_data['Prix'] * my_data['Quantite']
+resultats_par_produit = my_data.groupby('Produits Laitiers')['Prix_total'].sum()
+print(resultats_par_produit)
 
-print("Recette par prix:")
-print(recette_prix)
-print("\nRecette par produit:")
-print(recette_produit)
+#7
+# Utiliser groupby() pour regrouper les données par produit et trouver le prix maximum et minimum de chaque groupe
+max_prices = my_data.groupby('Produits Laitiers')['Prix'].max()
+min_prices = my_data.groupby('Produits Laitiers')['Prix'].min()
 
+# Afficher les résultats
+print("Prix maximaux :")
+print(max_prices)
+print("Prix minimaux :")
+print(min_prices)
+
+#8
+total = my_data['Reduction'].sum()
+
+# Afficher le résultat
+print("La somme des reduction est : ", total)
