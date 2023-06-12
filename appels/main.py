@@ -1,42 +1,58 @@
 import numpy as np
 import pandas as pd
-# import matplotlib.pyplot as plt
 
+# 1 - Charger les données à partir du fichier Excel
+data = pd.read_excel('DDB/Appels.xlsx')
+data = data.to_numpy()
 
-my_data = pd.read_excel("DDB/Appels.xlsx")
+# 2 - Calculer la durée totale des appels en format hh:mm:ss.
+numeros = data[:, 0]
+en_sor = data[:, 1]
+heures = data[:, 2].astype(int)
+minutes = data[:, 3].astype(int)
+secondes = data[:, 4].astype(int)
 
-# Calculer la durée totale des appels en format hh:mm:ss
-total_duration = my_data['hh'].sum()*3600 + my_data['mm'].sum()*60 + my_data['ss'].sum()
-hours = total_duration // 3600
-minutes = (total_duration % 3600) // 60
-seconds = total_duration % 60
-formatted_duration = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-print("Durée totale des appels :", formatted_duration)
+total_h = np.sum(heures)
+total_m = np.sum(minutes)
+total_s = np.sum(secondes)
 
-# Lister les numéros des appels entrants
-incoming_calls = my_data[my_data['En_Sor'] == 'En']['Numéro']
-print("Numéros des appels entrants :", list(incoming_calls))
+duree_totale_secondes = total_h * 3600 + total_m * 60 + total_s
 
-# Lister les numéros des appels sortants
-outgoing_calls = my_data[my_data['En_Sor'] == 'Sor']['Numéro']
-print("Numéros des appels sortants :", list(outgoing_calls))
+h = int(duree_totale_secondes // 3600)
+m = int((duree_totale_secondes % 3600) // 60)
+s = int(duree_totale_secondes % 60)
 
-# Calculer la durée totale des appels entrants en format hh:mm:ss
-incoming_duration = my_data[my_data['En_Sor'] == 'En'][['hh', 'mm', 'ss']].sum()
-incoming_hours = incoming_duration['hh'] + (incoming_duration['mm'] + incoming_duration['ss'] // 60) // 60
-incoming_minutes = (incoming_duration['mm'] + incoming_duration['ss'] // 60) % 60
-incoming_seconds = incoming_duration['ss'] % 60
-formatted_incoming_duration = f"{incoming_hours:02d}:{incoming_minutes:02d}:{incoming_seconds:02d}"
-print("Durée totale des appels entrants :", formatted_incoming_duration)
+print(f"Durée totale des appels : {h:02d}:{m:02d}:{s:02d}")
 
-# Calculer la durée totale des appels sortants en format hh:mm:ss
-outgoing_duration = my_data[my_data['En_Sor'] == 'Sor'][['hh', 'mm', 'ss']].sum()
-outgoing_hours = outgoing_duration['hh'] + (outgoing_duration['mm'] + outgoing_duration['ss'] // 60) // 60
-outgoing_minutes = (outgoing_duration['mm'] + outgoing_duration['ss'] // 60) % 60
-outgoing_seconds = outgoing_duration['ss'] % 60
-formatted_outgoing_duration = f"{outgoing_hours:02d}:{outgoing_minutes:02d}:{outgoing_seconds:02d}"
-print("Durée totale des appels sortants :", formatted_outgoing_duration)
+# 3 - Lister les numéros des appels entrants.
+appels_entrants = np.unique(numeros[en_sor == 'En'])
+print("Numéros des appels entrants : ")
+for numero_entrant in appels_entrants:
+    print(numero_entrant)
 
-# Trouver le numéro avec la durée d'appel la plus longue
-longest_duration = my_data[['Numéro', 'hh', 'mm', 'ss']].groupby('Numéro').sum().idxmax()
-print("Numéro avec la durée d'appel la plus longue :", longest_duration[0])
+# 4 - Lister les numéros des appels sortants.
+appels_sortants = np.unique(numeros[en_sor == 'Sor'])
+print("Numéros des appels sortants : ")
+for numero_sortant in appels_sortants:
+    print(numero_sortant)
+
+# 5 - Calculer la durée totale des appels entrants en format hh:mm:ss.
+duree_entrants = np.sum((en_sor == 'En') * (secondes + minutes*60 + heures*3600))
+heures_entrants = int(duree_entrants / 3600)
+minutes_entrants = int((duree_entrants % 3600) / 60)
+secondes_entrants = int((duree_entrants % 3600) % 60)
+duree_formatee_entrants = f"{heures_entrants:02d}:{minutes_entrants:02d}:{secondes_entrants:02d}"
+print("Durée totale des appels entrants : ", duree_formatee_entrants)
+
+# 6 - Calculer la durée totale des appels sortants en format hh:mm:ss.
+duree_sortants = np.sum((en_sor == 'Sor') * (secondes + minutes*60 + heures*3600))
+heures_sortants = int(duree_sortants / 3600)
+minutes_sortants = int((duree_sortants % 3600) / 60)
+secondes_sortants = int((duree_sortants % 3600) % 60)
+duree_formatee_sortants = f"{heures_sortants:02d}:{minutes_sortants:02d}:{secondes_sortants:02d}"
+print("Durée totale des appels sortants : ", duree_formatee_sortants)
+
+# Trouver le numéro avec la durée d'appel la plus longue.
+index_duree_max = np.argmax(secondes + minutes*60 + heures*3600)
+numero_duree_max = numeros[index_duree_max]
+print("Numéro avec la durée d'appel la plus longue :", numero_duree_max)
