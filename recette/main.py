@@ -23,12 +23,12 @@ import matplotlib.pyplot as plt
 
 """
 #1
-my_data = pd.read_excel("DDB/Recette.xlsx")
+my_data = pd.read_excel("../DDB/Recette.xlsx")
 total = my_data.apply(lambda x: x['Prix'] * x['Quantite'], axis=1).sum()
 print("le total de la recette vendue= ",total)
 
 #2
-my_data = pd.read_excel("DDB/Recette.xlsx")
+my_data = pd.read_excel("../DDB/Recette.xlsx")
 total_by_day = my_data.groupby('Jour').apply(lambda x: (x['Prix'] * x['Quantite']).sum()).reset_index(name='Total')
 print(total_by_day)
 
@@ -52,6 +52,15 @@ plt.xticks(rotation=90)
 ax.set_xlabel('Produit')
 ax.set_ylabel('Quantite')
 ax.set_title('Histogramme de la quantité vendue de chaque produit')
-
-# Affichage du graphique avec Streamlit
 st.pyplot(fig)
+
+#6
+recette_prix = my_data['Prix'] * my_data['Quantite']
+recette_produit = pd.concat([my_data['Produits Laitiers'], recette_prix], axis=1)
+recette_produit.columns = ['Produits Laitiers', 'Recette']
+
+print("Recette par prix:")
+print(recette_prix)
+print("\nRecette par produit:")
+print(recette_produit)
+
