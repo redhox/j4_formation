@@ -73,5 +73,15 @@ print(min_prices)
 #8
 total = my_data['Reduction'].sum()
 
-# Afficher le résultat
 print("La somme des reduction est : ", total)
+
+#9
+max_reduction = my_data.groupby('Produits Laitiers')['Reduction'].max()
+print(max_reduction)
+
+#10
+
+moyennes_produits = my_data.groupby('Jour')['Quantite'].mean()
+print(moyennes_produits)
+
+#11
