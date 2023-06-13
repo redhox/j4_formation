@@ -85,3 +85,5 @@ moyennes_produits = my_data.groupby('Jour')['Quantite'].mean()
 print(moyennes_produits)
 
 #11
+ecart_type_produits = my_data.groupby('Jour')['Quantite'].std()
+print(ecart_type_produits)
