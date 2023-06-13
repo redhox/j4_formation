@@ -24,12 +24,12 @@ import matplotlib.pyplot as plt
 """
 #1
 my_data = pd.read_excel("../DDB/Recette.xlsx")
-total = my_data.apply(lambda x: x['Prix'] * x['Quantite'], axis=1).sum()
+total = my_data.apply(lambda x: x['Prix'] * x['Quantite'] * x['Reduction'], axis=1).sum()
 print("le total de la recette vendue= ",total)
 
 #2
 my_data = pd.read_excel("../DDB/Recette.xlsx")
-total_by_day = my_data.groupby('Jour').apply(lambda x: (x['Prix'] * x['Quantite']).sum()).reset_index(name='Total')
+total_by_day = my_data.groupby('Jour').apply(lambda x: (x['Prix'] * x['Quantite'] * x['Reduction']).sum()).reset_index(name='Total')
 print(total_by_day)
 
 #3
