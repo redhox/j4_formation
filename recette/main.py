@@ -85,3 +85,6 @@ moyennes_produits = my_data.groupby('Jour')['Quantite'].mean()
 print(moyennes_produits)
 
 #11
+grouped = my_data.groupby(['Produits Laitiers', 'Jour'])
+means = grouped['Prix'].mean()
+print(means)
