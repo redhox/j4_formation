@@ -60,7 +60,6 @@ resultats_par_produit = my_data.groupby('Produits Laitiers')['Prix_total'].sum()
 print(resultats_par_produit)
 
 #7
-# Utiliser groupby() pour regrouper les données par produit et trouver le prix maximum et minimum de chaque groupe
 max_prices = my_data.groupby('Produits Laitiers')['Prix'].max()
 min_prices = my_data.groupby('Produits Laitiers')['Prix'].min()
 
@@ -88,3 +87,4 @@ print(moyennes_produits)
 grouped = my_data.groupby(['Produits Laitiers', 'Jour'])
 means = grouped['Prix'].mean()
 print(means)
+#try pour nvim ne pas prendre en comte
